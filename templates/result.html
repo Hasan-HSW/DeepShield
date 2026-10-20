@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نتيجة التحليل - DeepShield</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="page">
+    <div class="brand">
+      <h1>🛡️ DeepShield</h1>
+      <p>نتيجة تحليل الملف</p>
+    </div>
+
+    <div class="card">
+      <div class="filename-tag">📄 الملف الذي تم تحليله: <strong>{{ filename }}</strong></div>
+
+      {% if predicted_class == 'Normal' %}
+        <div class="result-badge green">✅ حركة طبيعية (Normal)</div>
+      {% else %}
+        <div class="result-badge {{ risk_level }}">🚨 تم اكتشاف نشاط مشبوه: {{ predicted_class }}</div>
+      {% endif %}
+
+      <div class="stat-grid">
+        <div class="stat-box">
+          <div class="label">نسبة الثقة (Confidence)</div>
+          <div class="value">{{ confidence_percent }}%</div>
+        </div>
+        <div class="stat-box">
+          <div class="label">درجة الخطورة (Risk Score)</div>
+          <div class="value">{{ risk_score }}/100</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="label" style="font-size:13px;color:var(--muted);margin-bottom:4px;">مستوى الخطورة</div>
+        <div class="risk-bar-track">
+          <div class="risk-bar-fill {{ risk_level }}" style="width: {{ risk_score }}%;"></div>
+        </div>
+      </div>
+
+      {% if should_alert %}
+      <div class="alert-banner danger">
+        🚨 تنبيه هام: تم رصد مؤشرات قوية على وجود هجوم إلكتروني. يُنصح باتخاذ إجراء فوري ومراجعة الشبكة.
+      </div>
+      {% else %}
+      <div class="alert-banner safe">
+        ✅ لا توجد مؤشرات خطر كبيرة حالياً بناءً على هذا الملف.
+      </div>
+      {% endif %}
+
+      <div class="actions">
+        <a href="{{ url_for('index') }}" class="btn secondary" style="text-decoration:none;text-align:center;">⬅️ تحليل ملف آخر</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

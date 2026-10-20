@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeepShield - نظام كشف التسلل الذكي</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <div id="loading-overlay">
+    <div class="spinner-box">
+      <div class="spinner"></div>
+      <p>جاري تحليل الملف... الرجاء الانتظار</p>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="brand">
+      <h1>🛡️ DeepShield</h1>
+      <p>نظام ذكي لكشف الاختراقات ومحاولات التسلل باستخدام الذكاء الاصطناعي (LSTM)</p>
+    </div>
+
+    <div class="card">
+      <h2>ابدأ التحليل الآن</h2>
+      <p class="sub">قم برفع ملف بيانات الشبكة (CSV) وسيقوم النظام بتحليله فوراً وتحديد ما إذا كانت هناك محاولة اختراق.</p>
+
+      {% if error %}
+      <div class="alert error">⚠️ {{ error }}</div>
+      {% endif %}
+
+      <form id="upload-form" action="{{ url_for('analyze') }}" method="POST" enctype="multipart/form-data">
+        <label class="dropzone" id="dropzone" for="file-input">
+          <div class="icon">📁</div>
+          <div class="main-text">اضغط هنا لاختيار ملف CSV</div>
+          <div class="sub-text">أو قم بسحب الملف وإفلاته هنا</div>
+          <div id="file-name"></div>
+        </label>
+        <input type="file" id="file-input" name="file" accept=".csv" required>
+
+        <button type="submit" class="btn" id="analyze-btn">🔍 تحليل الملف</button>
+      </form>
+
+      <p class="hint">يدعم النظام ملفات CSV فقط الخاصة ببيانات حركة الشبكة (Network Traffic)</p>
+    </div>
+  </div>
+
+  <script>
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('file-input');
+    const fileNameEl = document.getElementById('file-name');
+    const form = document.getElementById('upload-form');
+    const overlay = document.getElementById('loading-overlay');
+    const analyzeBtn = document.getElementById('analyze-btn');
+
+    function showFileName(file) {
+      if (file) {
+        fileNameEl.textContent = '✅ الملف المختار: ' + file.name;
+        fileNameEl.style.display = 'block';
+      }
+    }
+
+    fileInput.addEventListener('change', () => {
+      showFileName(fileInput.files[0]);
+    });
+
+    ['dragover', 'dragenter'].forEach(evt => {
+      dropzone.addEventListener(evt, (e) => {
+        e.preventDefault();
+        dropzone.classList.add('dragover');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach(evt => {
+      dropzone.addEventListener(evt, (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+      });
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        fileInput.files = files;
+        showFileName(files[0]);
+      }
+    });
+
+    form.addEventListener('submit', (e) => {
+      if (!fileInput.files || fileInput.files.length === 0) {
+        e.preventDefault();
+        alert('الرجاء اختيار ملف CSV أولاً');
+        return;
+      }
+      overlay.classList.add('show');
+      analyzeBtn.disabled = true;
+      analyzeBtn.textContent = 'جاري التحليل...';
+    });
+  </script>
+</body>
+</html>

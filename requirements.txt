@@ -1,0 +1,20 @@
+# NOTE on versions:
+# We intentionally do NOT pin tensorflow/keras to one exact build. Keras 3's
+# saved-model format is only guaranteed to load back with the SAME Keras
+# version it was saved with, and the exact version available to you depends
+# on your Python version (e.g. Keras 3.13+ requires Python 3.11+, so on
+# Python 3.10 pip will resolve an earlier 3.x release).
+#
+# Because of this, this project trains the model FRESH on your machine the
+# first time you run it (see step 4 in the instructions / README), so the
+# saved model always matches whatever tensorflow/keras version pip installs
+# for you. This avoids "GlorotUniform ... unexpected keyword argument" and
+# similar cross-version load errors entirely.
+tensorflow>=2.16,<2.17
+scikit-learn>=1.3
+pandas>=2.0,<3.0
+numpy>=1.24,<2.0
+matplotlib>=3.7
+joblib>=1.3
+Flask>=3.0
+Werkzeug>=3.0

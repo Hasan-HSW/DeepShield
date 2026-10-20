@@ -1,0 +1,2 @@
+Flow Duration,Total Fwd Packets,Total Backward Packets,Total Length of Fwd Packets,Total Length of Bwd Packets,Flow Bytes/s,Flow Packets/s,Flow IAT Mean,Fwd Packet Length Mean,Bwd Packet Length Mean,SYN Flag Count,ACK Flag Count,Source Port,Destination Port,Protocol,Label
+2445,4092,338,70687,17431,3530749.36,29500.04,89236.81,805.89,793.26,9,7,55734,80,6,DDoS
