@@ -1,4 +1,17 @@
 # Intrusion Detection LSTM Project (DeepShield)
+## 📸 Screenshots
+
+### Home Page
+![Home](home.png)
+
+### Normal Traffic Result
+![Normal](normal.png)
+
+### DDoS Detected
+![DDoS](DDos.png)
+
+### Invalid File Validation
+![Invalid File](invalid_file.png)
 
 An end-to-end LSTM-based intrusion detection system trained on the
 CICIDS2017 dataset, served through a Flask API.
