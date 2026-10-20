@@ -5,7 +5,7 @@
 ![Home](home.png)
 
 ### Normal Traffic Result
-![Normal](normal.png)
+![Normal](Normal.png)
 
 ### DDoS Detected
 ![DDoS](DDos.png)
